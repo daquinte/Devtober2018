@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Meta
   - Ink
+  - Muro
   layers:
   - Default
   - TransparentFX
