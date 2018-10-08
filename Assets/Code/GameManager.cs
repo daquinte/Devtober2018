@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;       //Instancia del manager de tinta
 
     public GameObject InkPrefab;                    //Prefab de tinta
-    public GameObject InkFather;                    //Objeto del editor que contiene toda la tinta
+    //public GameObject InkFather;                    //Objeto del editor que contiene toda la tinta
 
     public float MaxInk;                            //Tinta de Inicio
     public float UsedInkPerDrop;                    //Tinta que añades a la actual al pintar
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         //Sets this to not be destroyed when reloading scene
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
 
         Cursor.SetCursor(Brush, Vector2.zero, CursorMode.Auto);
 
