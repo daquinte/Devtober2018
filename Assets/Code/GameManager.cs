@@ -34,9 +34,6 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(this.gameObject);
-
         Cursor.SetCursor(Brush, Vector2.zero, CursorMode.Auto);
 
         //Inicializamos variables 
@@ -72,6 +69,7 @@ public class GameManager : MonoBehaviour
                 mousePos.z = 0;   //2D
                 Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
                 objectPos.z = 0;
+                Debug.Log(objectPos);
                 Instantiate(InkPrefab, objectPos, Quaternion.identity);
 
                 //Añadimos la tinta

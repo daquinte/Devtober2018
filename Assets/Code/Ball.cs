@@ -16,8 +16,8 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position += new Vector3(velX, 0.0f, 0.0f);
-        transform.Rotate(new Vector3(0,0, -rot));
+        transform.position += new Vector3((velX * Time.deltaTime), 0.0f, 0.0f);
+        transform.Rotate(new Vector3(0,0, (-rot * Time.deltaTime)));
 	}
 
     void OnCollisionEnter2D(Collision2D collision)
