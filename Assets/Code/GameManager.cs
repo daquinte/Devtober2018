@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;       //Instancia del manager de tinta
 
     public GameObject InkPrefab;                    //Prefab de tinta
-    //public GameObject InkFather;                    //Objeto del editor que contiene toda la tinta
+    public GameObject InkTracerPrefab;              //Prefab de pintaTinta
+
 
     public float MaxInk;                            //Tinta de Inicio
     public float UsedInkPerDrop;                    //Tinta que añades a la actual al pintar
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //Damos valor a la instancia
-        if (instance == null)   instance = this;
+        if (instance == null) instance = this;
         //Si existiera una ya, borramos esta.
         else if (instance != this)
             Destroy(gameObject);
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         {
             Pinta();
         }
+
 
         else if (Input.GetMouseButton(1))
         {
@@ -69,7 +71,7 @@ public class GameManager : MonoBehaviour
                 mousePos.z = 0;   //2D
                 Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
                 objectPos.z = 0;
-                Debug.Log(objectPos);
+                //Debug.Log(objectPos);
                 Instantiate(InkPrefab, objectPos, Quaternion.identity);
 
                 //Añadimos la tinta
@@ -83,14 +85,23 @@ public class GameManager : MonoBehaviour
     {
         if (DelAct <= MaxDel)
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-            if (hit.collider != null && hit.collider.tag == "Ink")
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 0;   //2D
+            Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
+            objectPos.z = 0;
+
+            Collider2D[] results = Physics2D.OverlapCircleAll(objectPos, 0.5f, 1);
+
+            for (int i = 0; i < results.Length; i++)
             {
-                Destroy(hit.collider.gameObject);
-                //Añadimos al borrado
-                DelAct += DeletePercentage;
-                Delete.fillAmount = DelAct / MaxDel;
+                if (results[i].GetComponent<Collider2D>().tag == "Ink")
+                {
+                    Destroy(results[i].gameObject);
+                    //Añadimos al borrado
+                    DelAct += DeletePercentage;
+                    Delete.fillAmount = DelAct / MaxDel;
+                }
             }
         }
     }
